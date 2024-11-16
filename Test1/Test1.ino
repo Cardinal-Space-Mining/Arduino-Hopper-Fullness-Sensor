@@ -14,7 +14,7 @@ void loop(){
   }
 
 const float R0 = 100;
-void ReadBar(p1,p2){
+void ReadBar(int p1,int p2){
   pinMode(p1, OUTPUT);
   digitalWrite(p1,HIGH);
   
@@ -53,4 +53,4 @@ void ReadBar(p1,p2){
   Serial.println("");
   }
 
-void Print(float var){Serial.print(var);  Serial.print(" ");}
+void Print(int var){Serial.print(var);  Serial.print(" ");}
