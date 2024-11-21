@@ -13,36 +13,18 @@ void loop(){
   delay(2000);
   }
 
-int arr[12];
-const float R0 = 100;
+int arr[12]; byte aPins[6] = {A5,A4,A3,A2,A1,A0}; 
 void ReadBar(int p1,int p2){
-  pinMode(p1, OUTPUT);
-  digitalWrite(p1,HIGH);
-  
-  arr[0] = analogRead(A5);
-  arr[1] = analogRead(A4);
-  arr[2] = analogRead(A3);
-  arr[3] = analogRead(A2);
-  arr[4] = analogRead(A1);
-  arr[5] = analogRead(A0);
-  digitalWrite(p1,LOW);
-  pinMode(p1, INPUT);
-
-  pinMode(p2, OUTPUT);
-  digitalWrite(p2,HIGH);
-  arr[6] = analogRead(A5);
-  arr[7] = analogRead(A4);
-  arr[8] = analogRead(A3);
-  arr[9] = analogRead(A2);
-  arr[10] = analogRead(A1);
-  arr[11] = analogRead(A0);
-  digitalWrite(p2,LOW);
-  pinMode(p2, INPUT); 
-
+  int dPins[2] = {p1,p2};
+  for(int p=0; p<2;p++){
+    pinMode(dPins[p], OUTPUT); digitalWrite(dPins[p],HIGH);
+    for(int i=0; i<6;i++){arr[i+6*p] = analogRead(aPins[i]);}
+    digitalWrite(dPins[p],LOW);pinMode(dPins[p], INPUT);
+  }
   PrintArr(arr);
   
   Serial.println("");
   }
 
-void PrintArr(int arr[12]){for(int i =0; i<12;i++){Serial.print(arr[i]);Serial.print(" ");}}
-//void Print(int var){Serial.print(var);  Serial.print(" ");}
+void PrintArr(int arr[12]){for(int i =0; i<12;i++){
+  Serial.print(arr[i]);Serial.print(" ");}}
