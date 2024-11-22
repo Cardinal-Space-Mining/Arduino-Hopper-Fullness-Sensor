@@ -1,11 +1,10 @@
-float cutoff = 30;
+int cutoffNumber = 30;
 int pin1 = 2; //red
 int pin2 = 3; //blue
 
 void setup() {
   Serial.begin(9600);
-  pinMode(2,OUTPUT);
-  pinMode(3,OUTPUT);
+  pinMode(2,OUTPUT); pinMode(3,OUTPUT);
 }
 
 void loop(){
@@ -21,9 +20,17 @@ void ReadBar(int p1,int p2){
     for(int i=0; i<6;i++){arr[i+6*p] = analogRead(aPins[i]);}
     digitalWrite(dPins[p],LOW);pinMode(dPins[p], INPUT);
   }
-  PrintArr(arr);
   
+  PrintArr(arr); 
+  Serial.print(cuttoff(arr));
   Serial.println("");
+  }
+
+int cuttoff(int arr[]){
+  int out = 0;
+  for(int i=0;i<12;i++){
+    if(arr[i]>cutoffNumber){out++;}}
+  return out;
   }
 
 void PrintArr(int arr[12]){for(int i =0; i<12;i++){
