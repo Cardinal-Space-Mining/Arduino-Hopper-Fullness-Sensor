@@ -1,6 +1,6 @@
-int cutoffNumber = 30;
-int pin1 = 2; //red
-int pin2 = 3; //blue
+int cutoffNumber = 90;
+int pin1 = 3; //red
+int pin2 = 2; //blue
 
 void setup() {
   Serial.begin(9600);
@@ -22,6 +22,7 @@ void ReadBar(int p1,int p2){
   }
   
   PrintArr(arr); 
+  Serial.print("open:");
   Serial.print(cuttoff(arr));
   Serial.println("");
   }
