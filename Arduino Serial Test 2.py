@@ -1,6 +1,9 @@
 import sys
 import glob
-import serial
+try:    import serial
+except: print("pyserial not installed")
+
+cutoff = 90
 
 def serial_ports():
     if sys.platform.startswith('win'):
@@ -24,14 +27,26 @@ def serial_ports():
 
 #ser = serial.Serial(str(serial_ports()[0]),9600)
 
-while True:
-    try: 
-        data = ser.readline().decode().strip()
-        if data:
-            print(data)
-    except:
-        try: ser = serial.Serial(str(serial_ports()[0]),9600)
-        except: pass
+def CutOff(Data):
+    out = 0
+    for d in range(12):
+        if int(Data[d]) >= cutoff: out +=1 
+    return out
+    
+if __name__ == "__main__":
+    while True:
+        try: 
+            data = ser.readline().decode().strip()
+            DataList = data.split(" ")[0:12]
+
+            if data:
+                text = str(DataList)[1:-1].replace("'","").replace(",","")
+                text += " open:" + str(CutOff(DataList))
+                print(text)
+
+        except:
+            try: ser = serial.Serial(str(serial_ports()[0]),9600)
+            except: pass
 
 
 
