@@ -3,7 +3,7 @@ import glob
 try:    import serial
 except: print("pyserial not installed")
 
-cutoff = 90
+cutoff = 150
 
 def serial_ports():
     if sys.platform.startswith('win'):
