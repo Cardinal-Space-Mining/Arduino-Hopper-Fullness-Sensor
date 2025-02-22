@@ -1,7 +1,15 @@
+git clone https://github.com/Cardinal-Space-Mining/Arduino-Hopper-Fullness-Sensor.git
+
 cd Arduino-Hopper-Fullness-Sensor
-https://github.com/Cardinal-Space-Mining/Arduino-Hopper-Fullness-Sensor.git
 git pull
 git add .
 git status
 git commit -m "message"
 git push
+
+Ros Commands:
+source /opt/ros/jazzy/setup.bash
+ros2 topic list
+ros2 topic echo /Arduino
+
+sudo usermod -a -G dialout cale
