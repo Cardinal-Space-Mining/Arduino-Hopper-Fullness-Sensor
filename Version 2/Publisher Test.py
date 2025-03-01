@@ -2,7 +2,6 @@ import rclpy
 from rclpy.node import Node
 
 from std_msgs.msg import Float64
-from std_msgs.msg import String
 import serial,sys,glob
 
 globals()["ser"] = "" 
@@ -54,13 +53,15 @@ def CutOff(Data):
 #takes the raw Arduino output and convert it to a single number but different
 # I have not test this one so I don't know if it works
 def DataAnalysis1():
+    cutoff = 300
+    total = 0
     data = DataOut()
-    DataList = data.split(" ")[0:12]
     if data:
-        text = str(DataList)[1:-1].replace("'","").replace(",","")
-        text += " open:" + str(CutOff(DataList))
-        print(text)
-    return text
+        DataList = data.split(" ")[0:12]
+        for num in DataList:
+            if int(num) > cutoff: total +=1 
+        
+        return total/12
 
 # this is just a publish I stole the code from most of it I left the same but I added code to timer_callback
 class MinimalPublisher(Node):
@@ -74,9 +75,9 @@ class MinimalPublisher(Node):
     def timer_callback(self):
         msg = Float64()
 
-        D = DataAnalysis0() # d is a float.
+        D = DataAnalysis1() # D is a float
 
-        if D>0: # only updates publisher if arduino in connected
+        if D or D==0: # only updates publisher if arduino in connected
             msg.data = D
             self.publisher_.publish(msg)
             self.get_logger().info('Publishing: "%s"' % msg.data)
