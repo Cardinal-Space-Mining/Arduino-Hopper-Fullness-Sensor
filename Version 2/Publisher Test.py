@@ -36,28 +36,36 @@ def DataOut():
         try: globals()["ser"] = serial.Serial(str(serial_ports()[0]),9600)
         except: pass
 
+def DataOut2():
+    out = []
+    try:
+        for port in serial_ports():
+            port1 = serial.Serial(str(port),9600)
+            data = port1.readline().decode().strip()
+            out.append([data])
+    except:pass
+
+    for o in out:
+        if "open:" in o[0]: 
+            return o[0]
+
 #takes the raw Arduino output and convert it to a single number
 def DataAnalysis0():
-    data = DataOut()
+    data = DataOut2()
     if data: 
         data = data.split(" ")[-1]
         data = data.split(":")[-1]
-        return int(data)/12
+        return 1-int(data)/12
 
-def CutOff(Data):
-    out = 0
-    for d in range(12):
-        if int(Data[d]) >= cutoff: out +=1 
-        return out
-
-#takes the raw Arduino output and convert it to a single number but different
-# I have not test this one so I don't know if it works
+#takes in the raw resistor values and adds a cutoff
 def DataAnalysis1():
-    cutoff = 300
+    cutoff = 225
     total = 0
-    data = DataOut()
+    data = DataOut2()
+    print(data)
     if data:
         DataList = data.split(" ")[0:12]
+        #cleprint(DataList)
         for num in DataList:
             if int(num) > cutoff: total +=1 
         

@@ -32,18 +32,28 @@ def CutOff(Data):
     for d in range(12):
         if int(Data[d]) >= cutoff: out +=1 
     return out
-    
+
+def DataOut2():
+    out = []
+    try:
+        for port in serial_ports():
+            port1 = serial.Serial(str(port),9600)
+            data = port1.readline().decode().strip()
+            out.append([data])
+    except:pass
+
+    print(out)
+    for o in out:
+        if "open:" in o[0]: 
+            return o
+
 if __name__ == "__main__":
     while True:
-        try: 
-            data = ser.readline().decode().strip()
-            DataList = data.split(" ")[0:12]
+        data = DataOut2()
 
-            if data:
-                text = str(DataList)[1:-1].replace("'","").replace(",","")
-                text += " open:" + str(CutOff(DataList))
-                print(text)
+        print(data)
 
-        except:
-            try: ser = serial.Serial(str(serial_ports()[0]),9600)
-            except: pass
+        if data and False:
+            text = str(DataList)[1:-1].replace("'","").replace(",","")
+            text += " open:" + str(CutOff(DataList))
+            print(text)
