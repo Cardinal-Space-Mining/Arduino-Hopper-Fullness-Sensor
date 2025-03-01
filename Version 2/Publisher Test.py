@@ -1,6 +1,7 @@
 import rclpy
 from rclpy.node import Node
 
+from std_msgs.msg import Float64
 from std_msgs.msg import String
 import serial,sys,glob
 
@@ -42,14 +43,13 @@ def DataAnalysis0():
     if data: 
         data = data.split(" ")[-1]
         data = data.split(":")[-1]
-   
-    return data
+        return int(data)/12
 
 def CutOff(Data):
     out = 0
     for d in range(12):
         if int(Data[d]) >= cutoff: out +=1 
-    return out
+        return out
 
 #takes the raw Arduino output and convert it to a single number but different
 # I have not test this one so I don't know if it works
@@ -66,18 +66,18 @@ def DataAnalysis1():
 class MinimalPublisher(Node):
     def __init__(self):
         super().__init__('minimal_publisher')
-        self.publisher_ = self.create_publisher(String, 'Arduino', 10)
+        self.publisher_ = self.create_publisher(Float64, 'Arduino', 10)
         timer_period = 0.5  # seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
         self.i = 0
 
     def timer_callback(self):
-        msg = String()
+        msg = Float64()
 
-        D = DataAnalysis1()
+        D = DataAnalysis0() # d is a float.
 
-        if D:
-            msg.data = "Hopper: " + str(D) + "    "+ str(self.i)
+        if D>0: # only updates publisher if arduino in connected
+            msg.data = D
             self.publisher_.publish(msg)
             self.get_logger().info('Publishing: "%s"' % msg.data)
             self.i += 1

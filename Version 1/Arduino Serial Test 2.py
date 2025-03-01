@@ -47,11 +47,3 @@ if __name__ == "__main__":
         except:
             try: ser = serial.Serial(str(serial_ports()[0]),9600)
             except: pass
-
-
-
-
-
-
-
-
