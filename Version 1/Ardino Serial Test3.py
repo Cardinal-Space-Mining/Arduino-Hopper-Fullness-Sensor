@@ -1,8 +1,7 @@
 import sys
-import glob, time
+import glob
 try:    import serial
 except: print("pyserial not installed")
-
 cutoff = 150
 
 def serial_ports():
@@ -14,7 +13,6 @@ def serial_ports():
         ports = glob.glob('/dev/tty.*')
     else:
         raise EnvironmentError('Unsupported platform')
-
     result = []
     for port in ports:
         try:
@@ -24,9 +22,7 @@ def serial_ports():
         except (OSError, serial.SerialException):
             pass
     return result
-
 #ser = serial.Serial(str(serial_ports()[0]),9600)
-
 def CutOff(Data):
     out = 0
     for d in range(12):
@@ -35,36 +31,28 @@ def CutOff(Data):
 
 def DataOut2():
     out = []
-    for port in serial_ports():
-        port1 = serial.Serial(str(port),9600)
-        data = port1.read()#line().decode().strip()
-        out.append([data])
+    try:
+        for port in serial_ports():
+            port1 = serial.Serial(str(port),9600)
+            data = port1.readline().decode().strip()
+            out.append([data])
+    except:pass
 
     print(out)
-
     for o in out:
-        if "open:" in str(o[0]): 
-            return o[0]
-out = ""
-data=""
-port1 = serial.Serial(str(serial_ports()[0]),9600)
-
-while False:
-    for port in serial_ports():
-        port1 = serial.Serial(str(port),9600)
-        num = port1.read(port1.inWaiting())
-        print(num)
-        time.sleep(0.1)
-
+        if "open:" in o[0]: 
+            return o
 
 if __name__ == "__main__":
     while True:
         data = DataOut2()
 
         print(data)
-        time.sleep(0.1)
 
         if data and False:
             text = str(DataList)[1:-1].replace("'","").replace(",","")
             text += " open:" + str(CutOff(DataList))
             print(text)
+
+        try: globals()["ser"] = serial.Serial(str(serial_ports()[0]),9600)
+        except: pass
