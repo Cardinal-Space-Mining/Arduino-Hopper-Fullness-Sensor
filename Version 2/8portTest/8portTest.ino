@@ -7,7 +7,8 @@ void setup() {
 }
 
 void loop() {
-  ReadBar(pin1, pin2);
+  //ReadBar(pin1, pin2);
+  Serial.print("Test");
   delay(2000);
 }
 
