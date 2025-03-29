@@ -20,8 +20,8 @@ int arr[12];
 void ReadBar(int p1, int p2) {
   
   //port 1 
-  int dPins[] = {2,3,4};
-  byte aPins[] = {A0,A1,A2,A3};
+  int dPins[] = {11,12,13};
+  byte aPins[] = {A4,A5,A6,A7};
   
   for(int i=0;i<3;i++){
     pinMode(dPins[i], OUTPUT); digitalWrite(dPins[i], HIGH);
@@ -31,9 +31,9 @@ void ReadBar(int p1, int p2) {
   
   //printing Section
   PrintArr(arr);
-  Serial.print("open:");
-  Serial.print(cuttoff(arr));
-  Serial.println("");
+  //Serial.print("open:");
+  //Serial.print(cuttoff(arr));
+  //Serial.println("");
 }
 
 int cuttoff(int arr[]) {
@@ -48,7 +48,7 @@ int cuttoff(int arr[]) {
 
 void PrintArr(int arr[12]) {
   for (int i = 0; i < 12; i++) {
-    Serial.print(1000 - arr[i]); Serial.print(" ");
+    Serial.print(arr[i]); Serial.print(" ");
   }
 }
 

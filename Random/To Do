@@ -6,12 +6,18 @@ Physical:
   mount boards
 
 code:
-  fix serail reconition
-  arduino code for up to 8 ports
-  algorithom to convert array to single float
+  fix serial recognition
+  Arduino code for up to 8 ports
+  algorithm to convert array to single float
   
 testing:
   graph??
   file of all running data
+
+looking into using system of equations for more accurate resistance readings
+
+Today: 3/29/25 
+	Make other cable 
+	Finish 8 port code or all 8 ports 
 
 
