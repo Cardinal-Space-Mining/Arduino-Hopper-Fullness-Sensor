@@ -4,7 +4,6 @@ int pin2 = 2; //blue
 
 void setup() {
   Serial.begin(9600);
-  pinMode(2, OUTPUT); pinMode(3, OUTPUT);
 }
 
 void loop() {
@@ -13,20 +12,20 @@ void loop() {
 }
 
 int arr[12];
-//byte aPins[] = {A7,A6,A5,A4,A3,A2,A1,A0};
-//int dPins[] = {p1,p2,p3};
+
+  //port 4 
+  //int dPins[] = {11,12,13};
+  //byte aPins[] = {A0,A1,A2,A3};
 
 void ReadBar(int p1, int p2) {
-
-  int dPins[] = {11,12,13};
+  
+  //port 1 
+  int dPins[] = {2,3,4};
   byte aPins[] = {A0,A1,A2,A3};
-
+  
   for(int i=0;i<3;i++){
     pinMode(dPins[i], OUTPUT); digitalWrite(dPins[i], HIGH);
-    arr[4*i+0] = analogRead(aPins[0]);
-    arr[4*i+1] = analogRead(aPins[1]);
-    arr[4*i+2] = analogRead(aPins[2]);
-    arr[4*i+3] = analogRead(aPins[3]);
+    for(int j=0;j<4;j++){arr[4*i+j] = analogRead(aPins[j]);}
     digitalWrite(dPins[i], LOW); pinMode(dPins[i], INPUT);
   }
   
