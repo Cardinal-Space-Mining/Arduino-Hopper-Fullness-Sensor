@@ -7,8 +7,7 @@ void setup() {
 }
 
 void loop() {
-  //ReadBar(pin1, pin2);
-  Serial.print("Test");
+  ReadBar(pin1, pin2);
   delay(2000);
 }
 
@@ -34,7 +33,7 @@ void ReadBar(int p1, int p2) {
   PrintArr(arr);
   //Serial.print("open:");
   //Serial.print(cuttoff(arr));
-  //Serial.println("");
+  Serial.println("");
 }
 
 int cuttoff(int arr[]) {
@@ -49,7 +48,7 @@ int cuttoff(int arr[]) {
 
 void PrintArr(int arr[12]) {
   for (int i = 0; i < 12; i++) {
-    Serial.print(arr[i]); Serial.print(" ");
+    Serial.print(abs(1000-arr[i])); Serial.print(" ");
   }
 }
 
