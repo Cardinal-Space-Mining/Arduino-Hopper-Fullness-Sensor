@@ -4,13 +4,13 @@ void setup() {
 
 void loop() {
   ReadBar(1);
-  ReadBar(2);
-  ReadBar(3);
-  ReadBar(4);
-  ReadBar(5);
-  ReadBar(6); 
-  ReadBar(7); 
-  ReadBar(8); 
+  //ReadBar(2);
+  //ReadBar(3);
+  //ReadBar(4);
+  //ReadBar(5);
+  //ReadBar(6); 
+  //ReadBar(7); 
+  //ReadBar(8); 
 
   Serial.println("");
   delay(10000);
@@ -40,7 +40,7 @@ void ReadBar(int PortNum){
 }
 
 void PrintArr(int arr[12], int PortNum) {
-  Serial.print("Port num: "); Serial.print(PortNum); Serial.print(" ");
+  Serial.print("Port num:"); Serial.print(PortNum); Serial.print(" ");
   for (int i = 0; i < 12; i++) {
     Serial.print(arr[i]); Serial.print(" ");
   }

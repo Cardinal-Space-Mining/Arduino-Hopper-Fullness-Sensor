@@ -1,0 +1,32 @@
+To Do:
+Physical:
+  make both board
+  make cables
+  drill holes (mountinging and cable)
+  mount boards
+
+code:
+  fix serial recognition
+  Arduino code for up to 8 ports
+  algorithm to convert array to single float
+  
+testing:
+  graph??
+  file of all running data
+
+looking into using system of equations for more accurate resistance readings
+
+Today: 3/29/25 
+	Make other cable 
+	Finish 8 port code or all 8 ports 
+
+----------------------------------------------------------------------------------
+4/19/25
+I need to figure out what more I need to do. I need to make sure I can get my publisher to work and publish whatever the Arduino says. I need to make a thing that takes that takes the Arduino arrays and makes it into a float. I also would like to look more into the circuitry and try to make that better. I also need to make them and drill new holes into everything. 
+
+
+finish the ROS publisher and talk to the Arduino 
+converting the array to float
+look into circuitry and try to find what is wrong
+make boards 
+connect boards
