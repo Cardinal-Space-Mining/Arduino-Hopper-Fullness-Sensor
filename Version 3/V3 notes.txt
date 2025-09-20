@@ -4,8 +4,11 @@ Have up to 16 photoresistors inputs
 NEED TO FIND A GOOD RESISTOR VALUE FOR VOLTAGE DEVIDOR 
 will need to use 1 resistor for every 1 photoresistor
 
-Will in theory only need 3 wires needs to find some good connectors
-will only need 3 wires so that gives a ton of options 
+7 wires
+  2 Positive/Negitive
+  4 Select pins 
+  1 Analog pin 
+
 could have USB on one side and Deutsch connector or another type but that is for another time
 
 Resources: 
