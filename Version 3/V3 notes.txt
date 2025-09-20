@@ -4,12 +4,14 @@ Have up to 16 photoresistors inputs
 NEED TO FIND A GOOD RESISTOR VALUE FOR VOLTAGE DEVIDOR 
 will need to use 1 resistor for every 1 photoresistor
 
+Need to find the range of the photoresistors in the condition and try to have them on the extremas of the voltage. 0V low, 5V High
+
 7 wires
-  2 Positive/Negitive
+  2 Power (Positive/Negitive)
   4 Select pins 
   1 Analog pin 
 
-could have USB on one side and Deutsch connector or another type but that is for another time
+
 
 Resources: 
 http://adam-meyer.com/arduino/CD74HC4067
