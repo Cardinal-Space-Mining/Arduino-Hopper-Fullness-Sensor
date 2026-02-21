@@ -15,3 +15,20 @@ Need to find the range of the photoresistors in the condition and try to have th
 
 Resources: 
 http://adam-meyer.com/arduino/CD74HC4067
+
+
+LED Lights 120 LEDs at 1.5 A @ 5v
+
+
+CSM TODO
+
+Arduino Code
+Design connecting board - Very close
+
+Solder PCBs
+Solder Arduino test board
+Test Bords (hopefully in regolith)
+
+Design and order Final Version of board
+
+Make sure that the publish and reader work - need to update it and improve it

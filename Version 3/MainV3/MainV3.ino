@@ -1,4 +1,6 @@
-const long int R2 = 5000; //R2 
+#include "c1.h"
+
+const long int R2 = 10000; //R2 
 const long int cutoff = 3000;
 
 const byte analogInput = A0;
