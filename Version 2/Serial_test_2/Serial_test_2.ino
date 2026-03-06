@@ -1,16 +1,12 @@
-
-
-    void setup() {
-
-      Serial.begin(9600);
-      randomSeed(analogRead(0));
+void setup() {
+  Serial.begin(9600);
+  randomSeed(analogRead(0));
     }
 
+void loop() {
+  long randNumber = random(35, 125);
+   Serial.write(randNumber);
 
-    void loop() {
-      long randNumber = random(35, 125);
-      Serial.write(randNumber);
-
-      delay(2000);
+   delay(2000);
 
     }
