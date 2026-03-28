@@ -34,6 +34,9 @@ def DataOut():
         try: globals()["ser"] = serial.Serial(str(serial_ports()[0]),9600)
         except: pass
 
+#def DataOutV2():
+#    raw_data = arduino.readline()
+
 
 # this is just a publish I stole the code from most of it I left the same but I added code to timer_callback
 class MinimalPublisher(Node):
@@ -47,10 +50,11 @@ class MinimalPublisher(Node):
     def timer_callback(self):
         msg = Float64()
 
-        DataOut2()
+        #print(serial_ports())
 
-        #D = 0.84
         D = None
+        Dout = str(DataOut()).replace("Test","")
+        if Dout != "None": D = float(Dout)
 
         if D or D==0: # only updates publisher if arduino in connected
             msg.data = D
@@ -66,5 +70,4 @@ def main(args=None):
     rclpy.shutdown()
 
 if __name__ == '__main__':
-    print(serial_ports())
-    #main()
+    main()
