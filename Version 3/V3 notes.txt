@@ -32,3 +32,18 @@ Test Bords (hopefully in regolith)
 Design and order Final Version of board
 
 Make sure that the publish and reader work - need to update it and improve it
+
+To Do:
+Arduino Code
+Design connecting board - Very close
+
+Solder PCBs
+Solder Arduino test board
+Test Bords (hopefully in regolith)
+
+Design and order Final Version of board
+
+Make sure that the publish and reader work - need to update it and improve it
+
+
+

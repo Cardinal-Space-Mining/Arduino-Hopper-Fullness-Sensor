@@ -2,8 +2,6 @@
 
 const long int R2 = 10000; //R2 
 #define cutoff 3000
-
-const byte analogInput = A0;
 const int Sig[] = {2,3,4,5};
 
 void setup(){
@@ -82,5 +80,5 @@ void ReadBar(){
 void loop(){
 	ReadBar();
   
-  delay(4000);
+  delay(2000);
 }
