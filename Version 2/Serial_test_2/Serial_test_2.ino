@@ -5,7 +5,7 @@ void setup() {
 
 void loop() {
   long randNumber = random(35, 125);
-   Serial.write(randNumber);
+  Serial.write(randNumber);
 
    delay(2000);
 
