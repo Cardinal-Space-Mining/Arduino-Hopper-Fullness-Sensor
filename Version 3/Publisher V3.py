@@ -46,6 +46,9 @@ class MinimalPublisher(Node):
     def timer_callback(self):
         msg = Float64()
 
+        try: print(globals()["ser"].port)
+        except: print("NO SER")
+
         D = None
         Dout = str(DataOut()).replace("Fs: ","")
         if Dout != "None": 

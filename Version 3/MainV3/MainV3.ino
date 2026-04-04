@@ -96,16 +96,22 @@ float CalcFinalVal(Bars Bar1, Bars Bar2, Bars Bar3) {
   float Bar1Val = 0;
   float Bar2Val = 0;
   float Bar3Val = 0;
+  float AvgFull = 0;
 
   if (Bar1.MaxHeight >= 0) {Bar1Val = BarHigh[Bar1.MaxHeight];}
   if (Bar2.MaxHeight >= 0) {Bar2Val = BarMid [Bar2.MaxHeight];}
   if (Bar3.MaxHeight >= 0) {Bar3Val = BarLow [Bar3.MaxHeight];}
 
-  if (Bar1.MaxHeight == 15){Bar1Val=100;} 
-  if (Bar2.MaxHeight == 15){Bar2Val=100;}
-  if (Bar3.MaxHeight == 15){Bar3Val=100;}
-
-  float AvgFull = (Bar1Val + Bar2Val + Bar3Val) / 3;
+  if (Bar1.MaxHeight == 15 && Bar2.MaxHeight == 15 && Bar2.MaxHeight == 15){
+    AvgFull=100;
+    }
+  else if (Bar1.MaxHeight < 15 && Bar2.MaxHeight == 15 && Bar2.MaxHeight == 15){
+    AvgFull=Bar1Val;
+    }
+   else if (Bar1.MaxHeight < 15 && Bar2.MaxHeight < 15 && Bar2.MaxHeight == 15){
+    AvgFull=(Bar1Val+ Bar2Val)/2;
+    }
+  else {AvgFull = (Bar1Val + Bar2Val + Bar3Val) / 3;}
 
   if(false){
     Serial.print("Bar 1: ");     Serial.print(Bar1.MaxHeight); Serial.print(" "); Serial.println(Bar1Val);
