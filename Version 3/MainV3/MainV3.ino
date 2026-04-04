@@ -2,7 +2,19 @@
 
 const long int R2 = 10000; //R2 
 #define cutoff 3000
+
+const byte analogInput = A0;
 const int Sig[] = {2,3,4,5};
+
+//These number are the max and the min % for each bar
+int High[] = {40, 100};
+int Mid[]  = {30, 90};
+int Low[]  = {20, 80};
+
+int BarHigh[16] = {};
+int BarMid[16]  = {};
+int BarLow[16]  = {};
+
 
 void setup(){
   Serial.begin(9600);
@@ -10,7 +22,14 @@ void setup(){
   pinMode(A0, INPUT); pinMode(A1, INPUT); pinMode(A2, INPUT); //one for each of the bars 
   for(int i=0; i<4; i++){pinMode(2+i, OUTPUT);}
   pinMode(A0, INPUT);
+
+  for (int i=0;i<16;i++){
+  BarHigh[i] = (((High[1]-High[0])/15*i+High[0])/100);
+  BarMid[i]  = (((Mid[1] -Mid[0])  /15*i+Mid[0]) /100);
+  BarLow[i]  = (((Low[1] -Low[0])  /15*i+Low[0]) /100);
+  }
 }
+
 
 void PrintBarRes(int NumOfBars, Bars Bar1, Bars Bar2, Bars Bar3){ //false for res Bool for bool; 
   for(int i=0;i<16;i++){
@@ -23,9 +42,12 @@ void PrintBarRes(int NumOfBars, Bars Bar1, Bars Bar2, Bars Bar3){ //false for re
 }
 
 Bars CalcBools(Bars Bar){
+  int maxHeight = -1;
   for(int i=0;i<16;i++){
     Bar.BoolVals[i] = (Bar.ResVals[i]>cutoff);
-  }
+    if (Bar.ResVals[i]>cutoff) {maxHeight = i;} 
+      }
+  Bar.MaxHeight = maxHeight;
   return Bar;
 }
 
@@ -45,6 +67,25 @@ double CalcRes(byte pin){
     double res = ((5 * R2)/VA)-R2-1500;
     return res;
 }
+
+float CalcFinalVal(Bars Bar1, Bars Bar2, Bars Bar3){
+  float Bar1Val = 0;
+  float Bar2Val = 0;
+  float Bar3Val = 0;
+  
+  if (Bar1.MaxHeight >= 0){Bar1Val = BarHigh[Bar1.MaxHeight];}
+  if (Bar2.MaxHeight >= 0){Bar2Val = BarMid [Bar2.MaxHeight];}
+  if (Bar3.MaxHeight >= 0){Bar3Val = BarLow [Bar3.MaxHeight];}
+
+  float AvgFull = (Bar1Val + Bar2Val + Bar3Val)/3;
+  
+  Serial.print("Bar 1: ");     Serial.print(Bar1.MaxHeight); Serial.print(" "); Serial.println(Bar1Val);
+  Serial.print("Bar 2: ");     Serial.print(Bar2.MaxHeight); Serial.print(" "); Serial.println(Bar2Val);
+  Serial.print("Bar 3: ");     Serial.print(Bar3.MaxHeight); Serial.print(" "); Serial.println(Bar3Val);
+  Serial.print("Final Full:"); Serial.println(AvgFull);
+
+  return AvgFull;
+  }
 
 void ReadBar(){
   struct Bars Bar1;
@@ -70,15 +111,18 @@ void ReadBar(){
       Bar3.ResVals[i] = CalcRes(A2);
       delay(2);
   }	  
+  
   PrintBarRes(1, Bar1, Bar2, Bar3);
   Bar1 = CalcBools(Bar1);
   Bar2 = CalcBools(Bar2);
   Bar3 = CalcBools(Bar3);
   PrintBarBool(1, Bar1, Bar2, Bar3);
+
+  CalcFinalVal(Bar1, Bar2, Bar3);
 }
   
 void loop(){
 	ReadBar();
   
-  delay(2000);
+  delay(4000);
 }
