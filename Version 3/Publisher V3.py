@@ -1,19 +1,22 @@
 import rclpy
 from rclpy.node import Node
+from rclpy.publisher import Publisher
+from rclpy.timer import Timer
 
 from std_msgs.msg import Float64
-import serial,sys,glob
+import serial, sys, glob
 
-#this is just code I took that find what port the arduino is connected 
-def serial_ports():
-    if sys.platform.startswith('win'):
-        ports = ['COM%s' % (i + 1) for i in range(256)]
-    elif sys.platform.startswith('linux') or sys.platform.startswith('cygwin'):
-        ports = glob.glob('/dev/tty[A-Za-z]*')
-    elif sys.platform.startswith('darwin'):
-        ports = glob.glob('/dev/tty.*')
+
+# this is just code I took that find what port the arduino is connected
+def serial_ports() -> list[str]:
+    if sys.platform.startswith("win"):
+        ports = ["COM%s" % (i + 1) for i in range(256)]
+    elif sys.platform.startswith("linux") or sys.platform.startswith("cygwin"):
+        ports = glob.glob("/dev/tty[A-Za-z]*")
+    elif sys.platform.startswith("darwin"):
+        ports = glob.glob("/dev/tty.*")
     else:
-        raise EnvironmentError('Unsupported platform')
+        raise EnvironmentError("Unsupported platform")
 
     result = []
     for port in ports:
@@ -25,50 +28,79 @@ def serial_ports():
             pass
     return result
 
-#Just gets the data from serial with checking for erros and finding the port if it changes or arduino get unpluged
-def DataOut():
-    try: 
-        data = globals()["ser"].readline().decode().strip()
-        return data
-    except:
-        try: globals()["ser"] = serial.Serial(str(serial_ports()[0]),9600)
-        except: pass
+
+# #Just gets the data from serial with checking for erros and finding the port if it changes or arduino get unpluged
+# def DataOut():
+#     try:
+#         data = globals()["ser"].readline().decode().strip()
+#         return data
+#     except:
+#         try: globals()["ser"] = serial.Serial(serial_ports()[0],9600)
+#         except: pass
+
 
 # this is just a publish I stole the code from most of it I left the same but I added code to timer_callback
 class MinimalPublisher(Node):
-    def __init__(self):
-        super().__init__('minimal_publisher')
-        self.publisher_ = self.create_publisher(Float64, 'Arduino', 10)
-        timer_period = 0.5  # seconds
+    publisher_: Publisher
+    timer: Timer
+    i: int
+    serial_port: serial.Serial
+
+    __slots__ = ("i", "timer", "publisher_", "serial_port")
+
+    def __get_data(self) -> str:
+        return self.serial_port.readline().decode().strip()
+
+    def __init__(self, serial_port: str | None = None):
+        super().__init__("minimal_publisher")
+        self.publisher_ = self.create_publisher(Float64, "Arduino", 10)
+        timer_period = 1  # seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
         self.i = 0
+        if serial_port is None:
+            self.serial_port = serial.Serial(serial_ports()[0], 9600)
+        elif isinstance(serial_port, str):
+            self.serial_port = serial.Serial(serial_port, 9600)
+        else:
+            raise ValueError(f"parameter serial_port: {serial_port} is an invalid type")
+        self.serial_port.read_until()
 
     def timer_callback(self):
         msg = Float64()
 
-        try: print(globals()["ser"].port)
-        except: print("NO SER")
+        while True:
+            try:
+                line = self.__get_data()
+                break
+            except serial.serialutil.SerialException:
+                serPorts = serial_ports()
+                if len(serPorts) > 0:
+                    self.serial_port = serial.Serial(serPorts[0], 9600)
+                    continue
+                else:
+                    return
 
-        D = None
-        Dout = str(DataOut()).replace("Fs: ","")
-        if Dout != "None": 
-            try: D = float(Dout)
-            except: pass
+        if not "Fs: " in line:
+            return
 
-        print(Dout, D)
+        Dout = float(line.replace("Fs: ", ""))
 
-        if D or D==0: # only updates publisher if arduino in connected
-            msg.data = D
-            self.publisher_.publish(msg)
-            self.get_logger().info('Publishing: "%s"' % msg.data)
-            self.i += 1
+        print(Dout, line)
+
+        msg.data = Dout
+        self.publisher_.publish(msg)
+        self.get_logger().info('Publishing: "%s"' % msg.data)
+        self.i += 1
+
 
 def main(args=None):
+    print(serial_ports())
     rclpy.init(args=args)
     minimal_publisher = MinimalPublisher()
     rclpy.spin(minimal_publisher)
     minimal_publisher.destroy_node()
     rclpy.shutdown()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

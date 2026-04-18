@@ -1,7 +1,7 @@
 #include "c1.h"
 
 const long int R2 = 10000; //R2
-#define cutoff 5000 //3000
+#define cutoff 3000
 
 const byte analogInput = A0;
 const int Sig[] = {2, 3, 4, 5};
@@ -35,7 +35,7 @@ void setup() {
 }
 
 
-void PrintBarRes(int NumOfBars, Bars Bar1, Bars Bar2, Bars Bar3) { //false for res Bool for bool;
+void PrintBarRes(int NumOfBars, const Bars& Bar1, const Bars& Bar2, const Bars& Bar3) { //false for res Bool for bool;
   for (int i = 0; i < 16; i++) {
     if (NumOfBars >= 1) {
       Serial.print(Bar1.ResVals[i]);
@@ -66,7 +66,7 @@ Bars CalcBools(Bars Bar) {
   return Bar;
 }
 
-void PrintBarBool(int NumOfBars, Bars Bar1, Bars Bar2, Bars Bar3) { //false for res Bool for bool;
+void PrintBarBool(int NumOfBars, const Bars& Bar1, const Bars& Bar2, const Bars& Bar3) { //false for res Bool for bool;
   for (int i = 0; i < 16; i++) {
     if (NumOfBars >= 1) {
       Serial.print(Bar1.BoolVals[i]);
@@ -92,7 +92,7 @@ double CalcRes(byte pin) {
   return res;
 }
 
-float CalcFinalVal(Bars Bar1, Bars Bar2, Bars Bar3) {
+float CalcFinalVal(const Bars& Bar1, const Bars& Bar2, const Bars& Bar3) {
   float Bar1Val = 0;
   float Bar2Val = 0;
   float Bar3Val = 0;
@@ -144,15 +144,13 @@ void ReadBar() {
     Bar2.ResVals[i] = CalcRes(A1);
     delay(2);
     Bar3.ResVals[i] = CalcRes(A2);
-    delay(2);
   }
 
-  PrintBarRes(1, Bar1, Bar2, Bar3);
+  //PrintBarRes(1, Bar1, Bar2, Bar3);
   Bar1 = CalcBools(Bar1);
   Bar2 = CalcBools(Bar2);
   Bar3 = CalcBools(Bar3);
-  PrintBarBool(1, Bar1, Bar2, Bar3);
-  Serial.println(Bar1.MaxHeight);
+  //PrintBarBool(1, Bar1, Bar2, Bar3);
 
   Bar1.MaxHeight = 4;
   Bar2.MaxHeight = 9;
@@ -165,5 +163,5 @@ void ReadBar() {
 void loop() {
   ReadBar();
 
-  delay(3000);
+  //delay(3000);
 }
