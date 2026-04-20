@@ -1,7 +1,7 @@
 #include "c1.h"
 
 const long int R2 = 10000; //R2
-#define cutoff 3000
+#define cutoff 5000 //3000
 
 const byte analogInput = A0;
 const int Sig[] = {2, 3, 4, 5};
@@ -34,7 +34,6 @@ void setup() {
   }
 }
 
-
 void PrintBarRes(int NumOfBars, const Bars& Bar1, const Bars& Bar2, const Bars& Bar3) { //false for res Bool for bool;
   for (int i = 0; i < 16; i++) {
     if (NumOfBars >= 1) {
@@ -56,10 +55,10 @@ void PrintBarRes(int NumOfBars, const Bars& Bar1, const Bars& Bar2, const Bars& 
 
 Bars CalcBools(Bars Bar) {
   int maxHeight = -1;
-  for (int i = 0; i < 16; i++) {
-    Bar.BoolVals[i] = (Bar.ResVals[i] > cutoff);
+  for (int i = 0; i < 16; i++) { Bar.BoolVals[i] = (Bar.ResVals[i] > cutoff);}
+  for (int i = 15; i >=0; i--){
     if (Bar.ResVals[i] > cutoff) {
-      maxHeight = i;
+      maxHeight = 15-i;
     }
   }
   Bar.MaxHeight = maxHeight;
@@ -146,11 +145,12 @@ void ReadBar() {
     Bar3.ResVals[i] = CalcRes(A2);
   }
 
-  //PrintBarRes(1, Bar1, Bar2, Bar3);
+  PrintBarRes(1, Bar2, Bar2, Bar3);
   Bar1 = CalcBools(Bar1);
   Bar2 = CalcBools(Bar2);
   Bar3 = CalcBools(Bar3);
-  //PrintBarBool(1, Bar1, Bar2, Bar3);
+  PrintBarBool(1, Bar2, Bar2, Bar3);
+  Serial.println(Bar2.MaxHeight);
 
   Bar1.MaxHeight = 4;
   Bar2.MaxHeight = 9;
@@ -163,5 +163,5 @@ void ReadBar() {
 void loop() {
   ReadBar();
 
-  //delay(3000);
+  delay(2000);
 }
