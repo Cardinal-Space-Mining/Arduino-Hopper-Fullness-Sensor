@@ -1,7 +1,7 @@
 #include "c1.h"
 
 const long int R2 = 10000; //R2
-#define cutoff 4000 //3000
+#define cutoff 6000 //3000
 
 const byte analogInput = A0;
 const int Sig[] = {2, 3, 4, 5};
@@ -149,7 +149,7 @@ void ReadBar() {
   Bar1 = CalcBools(Bar1);
   Bar2 = CalcBools(Bar2);
   Bar3 = CalcBools(Bar3);
-  PrintBarBool(1, Bar3, Bar2, Bar3);
+  //PrintBarBool(1, Bar3, Bar2, Bar3);
   //Serial.println(Bar2.MaxHeight);
 
   float FinalFull = CalcFinalVal(Bar1, Bar2, Bar3);
@@ -158,6 +158,4 @@ void ReadBar() {
 
 void loop() {
   ReadBar();
-
-  delay(6000);
 }
